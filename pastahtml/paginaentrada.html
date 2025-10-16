@@ -5,79 +5,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../pastacss/cssEntrada.css">
-    <title>Loja online de camisas de time</title>
+    <title>HERINGER STORE - CAMISAS DE TIME</title>
 </head>
 
 <body>
-    <header>
-        <div class="containerPai">
-            <div class="containerContato">
-                <div class="filhoContato">
-                    <img src="../imagensicones/whatsapp-128-svgrepo-com.svg" alt="" width="20px">
-                    <span>Whatsapp</span>
-                </div>
-                <div class="filhoContato">
-                    <img src="../imagensicones/cellphone-svgrepo-com.svg" alt="" width="20px">
-                    <span>27 998147234</span>
-                </div>
-            </div>
-        </div>
-        <div class="containerPai2">
-            <div class="containerContato">
-                <div class="divLogoSite">
-                    <img src="../imagensicones/profile-1335-svgrepo-com.svg" alt="" width="60px">
-                </div>
-                <div class="pesquisa">
-                    <label for="barraPesquisa">
-                        <img src="../imagensicones/search-svgrepo-com.svg" alt="" width="20px">
-                    </label>
-                    <input type="text" id="searchBar" name="searchBar" class="barraPesquisa" placeholder="Buscar"
-                        onkeyup="search()">
-                </div>
-                <div class="perfilSite">
-                    <img src="../imagensicones/profile-1335-svgrepo-com.svg" alt="" width="20px">
-                    <a href="">
-                        <span>Cadastre-se</span>
-                    </a>
-                    |
-                    <a href="">
-                        <span>Fazer Login</span>
-                    </a>
-                </div>
-            </div>
-
-
-        </div>
-        <div class="slider">
-
-
-
-            <div class="slides">
-                <input type="radio" name="radio-btn" id="radio1" checked>
-                <input type="radio" name="radio-btn" id="radio2">
-                <input type="radio" name="radio-btn" id="radio3">
-                <div class="slide first">
-                    <img src="../imagensicones/eucrianca.JPG" alt="imagem 1">
-                </div>
-                <div class="slide">
-                    <img src="../imagensicones/familiatebas.jpeg" alt="imagem 2">
-                </div>
-                <div class="slide">
-                    <img src="../imagensicones/IMG_20160724_193940294 (1).jpg" alt="imagem 3">
-                </div>
-            </div>
-
-
-
-            <div class="manual-navigation">
-                <label for="radio1" class="manual-btn"></label>
-                <label for="radio2" class="manual-btn"></label>
-                <label for="radio3" class="manual-btn"></label>
+     <header>
+        <div class="logo">HERINGER STORE</div>
+        <div class="nav-right">
+            <ul class="nav-links">
+                <li><a href="paginaentrada.html">Início</a></li>
+                <li><a href="camisas.html">Camisas</a></li>
+                <li><a href="sobre.html">Sobre</a></li>
+            </ul>
+            <div class="cart-icon" id="cartIcon">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
             </div>
         </div>
     </header>
 
+    <!-- Carousel -->
+    <div class="carousel-container">
+        <div class="carousel" id="carousel">
+            <div class="carousel-slide" style="background-image: url(../imagensicones/cruzeiropose.jpg);">
+                <div class="slide-content">
+                    <h1>TAILANDESAS</h1>
+                </div>
+            </div>
+            <div class="carousel-slide" style="background-image:url(../imagensicones/5143361051251379001.jpg);">
+                <div class="slide-content">
+                    <h1>MODELOS EXCLUSIVOS</h1>
+                </div>
+            </div>
+            <div class="carousel-slide" style="background-image:url(../imagensicones/flamengoensaio.jpg);">
+                <div class="slide-content">
+                    <h1>NACIONAIS E EUROPEUS</h1>
+                    <p>Pedidos sob encomenda</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-arrow prev" id="prevBtn">❮</button>
+        <button class="carousel-arrow next" id="nextBtn">❯</button>
+        <div class="carousel-controls" id="carouselControls"></div>
+    </div>
 
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-title">CATEGORIAS</div>
+            <ul class="category-list" id="categoryList"></ul>
+        </aside>
+
+        <!-- Produtos -->
+        <section class="products-container">
+            <h2 class="section-title" id="categoryTitle">Temporada Atual</h2>
+            <div class="products-grid" id="productsGrid"></div>
+        </section>
+    </div>
+
+    <!-- Modal Carrinho -->
+    <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Seu Carrinho</h2>
+                <button class="close-modal" id="closeModal">✕</button>
+            </div>
+            <div id="cartItems"></div>
+            <div id="cartSummary"></div>
+        </div>
+    </div>
 
     <script src="../passajs/jsEntrada.js"></script>
 </body>
