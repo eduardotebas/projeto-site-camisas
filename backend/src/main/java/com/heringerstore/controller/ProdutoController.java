@@ -3,6 +3,7 @@ package com.heringerstore.controller;
 import com.heringerstore.model.Produto;
 import com.heringerstore.service.ProdutoService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,11 +12,11 @@ import java.util.List;
 @RequestMapping("/produtos")
 @CrossOrigin
 public class ProdutoController {
-
-    private ProdutoService service = new ProdutoService();
+    @Autowired
+    private ProdutoService service;
 
     @GetMapping
-    public List<Produto> listarProdutos(){
+    public List<Produto> listarProdutos() {
         return service.listarProdutos();
     }
 
