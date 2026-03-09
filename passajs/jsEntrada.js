@@ -308,7 +308,7 @@ function renderCartItems() {
 function checkout() {
     if (cart.length === 0) return;
     const total = cart.reduce((sum, item) => sum + item.price, 0) + 15;
-    alert(`Compra finalizada! Total: R$ ${total.toFixed(2)}\n\nObrigado por comprar na Bro Style!`);
+    alert(`Compra finalizada! Total: R$ ${total.toFixed(2)}\n\nObrigado por comprar na Heringer Store!`);
     cart = [];
     updateCart();
     document.getElementById('cartModal').classList.remove('active');
@@ -346,3 +346,15 @@ initCarousel();
 renderCategories();
 renderProducts();
 renderCartItems();
+
+async function carregarProdutos(){
+
+    const resposta = await fetch("http://localhost:8080/produtos");
+
+    const produtos = await resposta.json();
+
+    console.log(produtos);
+
+}
+
+carregarProdutos();
