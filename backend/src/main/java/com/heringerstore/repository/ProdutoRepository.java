@@ -13,8 +13,8 @@ public class ProdutoRepository {
 
     public ProdutoRepository() {
 
-        produtos.add(new Produto(1L, "Camisa PSG 24/25", "Tecido respirável", 149.90));
-        produtos.add(new Produto(2L, "Camisa Retrô", "Estilo clássico", 179.90));
+        produtos.add(new Produto(1L, "Camisa PSG 24/25", "Temporada", 149.90));
+        produtos.add(new Produto(2L, "Camisa Seleção Amarela Copa do Mundo 26/27", "Copa do Mundo", 179.90));
 
     }
 

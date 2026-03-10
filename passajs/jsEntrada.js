@@ -24,9 +24,9 @@ const products = {
         },
         { 
             id: 3, 
-            name: 'Camisa Amarela Vibrante', 
-            description: 'Cor vibrante e moderna', 
-            price: 94.90, 
+            name: 'Camisa Amarela Seleção Copa Do Mundo 26/27', 
+            description: 'Copa do Mundo', 
+            price: 179.90, 
             images: [
                 'https://via.placeholder.com/400x400?text=Amarela+Frente',
                 'https://via.placeholder.com/400x400?text=Amarela+Costas'

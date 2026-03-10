@@ -1,17 +1,17 @@
 // ---- DADOS (COPIADOS DO SEU CÓDIGO ORIGINAL) ----
 const products = {
     temporada: [
-        {id: 1, name: 'Camisa Paris Saint-Germain 24/25', description: 'Tecido respirável e leve', price: 149.90, images: ['../imagensicones/psgfrente.jpeg','../imagensicones/psgverso.jpeg']},
-        {id: 2, name: 'Camisa Branca Clássica', description: 'Perfeita para todos os dias', price: 79.90, images: ['https://via.placeholder.com/400x400?text=Branca+1','https://via.placeholder.com/400x400?text=Branca+2']},
-        {id: 3, name: 'Camisa Amarela Vibrante', description: 'Cor vibrante e moderna', price: 94.90, images: ['https://via.placeholder.com/400x400?text=Amarela+Frente','https://via.placeholder.com/400x400?text=Amarela+Costas']},
+        { id: 1, name: 'Camisa Paris Saint-Germain 24/25', description: 'Tecido respirável e leve', price: 149.90, images: ['../imagensicones/psgfrente.jpeg', '../imagensicones/psgverso.jpeg'] },
+        { id: 2, name: 'Camisa Inter de Milão Total 90', description: 'Perfeita para todos os dias', price: 149.90, images: ['https://via.placeholder.com/400x400?text=Branca+1', 'https://via.placeholder.com/400x400?text=Branca+2'] },
+        { id: 3, name: 'Camisa Amarela Seleção Copa Do Mundo 26/27', description: 'Cor vibrante e moderna', price: 149.90, images: ['https://via.placeholder.com/400x400?text=Amarela+Frente', 'https://via.placeholder.com/400x400?text=Amarela+Costas'] },
     ],
     retro: [
-        {id: 4, name: 'Camisa Vintage Retrô', description: 'Estilo dos anos 80', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Vintage+1']},
-        {id: 5, name: 'Camisa Estampa Clássica', description: 'Design retrô autêntico', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Estampa']},
+        { id: 4, name: 'Camisa Vintage Retrô', description: 'Estilo dos anos 80', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Vintage+1'] },
+        { id: 5, name: 'Camisa Estampa Clássica', description: 'Design retrô autêntico', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Estampa'] },
     ],
     mangalonga: [
-        {id: 6, name: 'Camisa Manga Longa Preta', description: 'Elegante e sofisticada', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Preta']},
-        {id: 7, name: 'Camisa Manga Longa Jeans', description: 'Confortável e versátil', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Jeans']},
+        { id: 6, name: 'Camisa Manga Longa Preta', description: 'Elegante e sofisticada', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Preta'] },
+        { id: 7, name: 'Camisa Manga Longa Jeans', description: 'Confortável e versátil', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Jeans'] },
     ]
 };
 
@@ -51,7 +51,7 @@ function renderAllProducts() {
 
     sizes.forEach(size => {
         document.querySelectorAll(`[data-size="${size}"]`).forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 this.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
                 this.classList.add('selected');
             });
@@ -82,7 +82,7 @@ function addToCart(productId) {
     const sizeBtn = document.querySelector(`#sizes-${productId} .size-btn.selected`);
     if (!sizeBtn) return alert('Selecione um tamanho!');
     const size = sizeBtn.textContent;
-    const cartItem = {...product, id: Date.now(), size};
+    const cartItem = { ...product, id: Date.now(), size };
     cart.push(cartItem);
     updateCart();
 }
