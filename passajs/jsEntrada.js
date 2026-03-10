@@ -2,55 +2,63 @@ const products = {
     // ⚠️ ATUALIZE AQUI COM ARRAY DE IMAGENS ⚠️
     // Use URLs de imagem reais (ou caminhos como 'img/camisa1_frente.jpg')
     temporada: [
-        { 
-            id: 1, 
-            name: 'Camisa Paris Saint-Germain 24/25', 
-            description: 'Tecido respirável e leve', 
-            price: 149.90, 
+        {
+            id: 1,
+            name: 'Camisa Paris Saint-Germain 24/25',
+            description: 'Tecido respirável e leve',
+            price: 149.90,
             images: [
                 '../imagensicones/psgfrente.jpeg',
                 '../imagensicones/psgverso.jpeg',
             ]
         },
-        { 
-            id: 2, 
-            name: 'Camisa Branca Clássica', 
-            description: 'Perfeita para todos os dias', 
-            price: 79.90, 
+        {
+            id: 2,
+            name: 'Camisa Inter de Milão Total 90',
+            description: 'Total 90',
+            price: 149.90,
             images: [
-                'https://via.placeholder.com/400x400?text=Branca+1',
-                'https://via.placeholder.com/400x400?text=Branca+2'
-            ] 
+                '../imagensicones/intermilaototal90.png',
+                '../imagensicones/intermilaototal90verso.png'
+            ]
         },
-        { 
-            id: 3, 
-            name: 'Camisa Amarela Seleção Copa Do Mundo 26/27', 
-            description: 'Copa do Mundo', 
-            price: 179.90, 
+        {
+            id: 3,
+            name: 'Camisa Amarela Seleção Copa Do Mundo 26/27',
+            description: 'Copa do Mundo',
+            price: 179.90,
             images: [
                 'https://via.placeholder.com/400x400?text=Amarela+Frente',
                 'https://via.placeholder.com/400x400?text=Amarela+Costas'
-            ] 
+            ]
+        },
+         {
+            id: 4,
+            name: 'Camisa Alemanha Copa Do Mundo 26/27',
+            description: 'Copa do Mundo', price: 179.90, 
+            images:[
+                'https://via.placeholder.com/400x400?text=Amarela+Frente',
+                'https://via.placeholder.com/400x400?text=Amarela+Costas']
         },
     ],
     retro: [
-        { 
-            id: 4, 
-            name: 'Camisa Vintage Retrô', 
-            description: 'Estilo dos anos 80', 
-            price: 179.90, 
+        {
+            id: 5,
+            name: 'Camisa Vintage Retrô',
+            description: 'Estilo dos anos 80',
+            price: 179.90,
             images: [
                 'https://via.placeholder.com/400x400?text=Retro+Vintage+1',
                 'https://via.placeholder.com/400x400?text=Retro+Vintage+2'
-            ] 
+            ]
         },
-        { id: 5, name: 'Camisa Estampa Clássica', description: 'Design retrô autêntico', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Estampa'] },
-        { id: 6, name: 'Camisa Xadrez Vintage', description: 'Padrão dos 90s', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Xadrez+90s'] },
+        { id: 6, name: 'Camisa Estampa Clássica', description: 'Design retrô autêntico', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Estampa'] },
+        { id: 7, name: 'Camisa Xadrez Vintage', description: 'Padrão dos 90s', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Xadrez+90s'] },
     ],
     mangalonga: [
-        { id: 7, name: 'Camisa Manga Longa Preta', description: 'Elegante e sofisticada', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Preta'] },
-        { id: 8, name: 'Camisa Manga Longa Jeans', description: 'Confortável e versátil', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Jeans'] },
-        { id: 9, name: 'Camisa Manga Longa Social', description: 'Ideal para trabalho', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Social'] },
+        { id: 8, name: 'Camisa Manga Longa Preta', description: 'Elegante e sofisticada', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Preta'] },
+        { id: 9, name: 'Camisa Manga Longa Jeans', description: 'Confortável e versátil', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Jeans'] },
+        { id: 10, name: 'Camisa Manga Longa Social', description: 'Ideal para trabalho', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Social'] },
     ]
 };
 
@@ -60,7 +68,7 @@ const categories = [
     { id: 'mangalonga', name: 'Manga Longa', icon: '🧥' }
 ];
 
-const sizes = ['P', 'M', 'G', 'GG', 'XG'];
+const sizes = ['P', 'M', 'G', 'GG'];
 let cart = [];
 let currentSlide = 0;
 let currentCategory = 'temporada';
@@ -72,14 +80,14 @@ let currentImageIndex = {};
 
 function changeProductImage(productId, direction) {
     const productData = Object.values(products).flatMap(category => category).find(p => p.id === productId);
-    
+
     if (!productData || productData.images.length < 2) return;
 
     // Inicializa o índice se não existir
     if (currentImageIndex[productId] === undefined) {
         currentImageIndex[productId] = 0;
     }
-    
+
     let newIndex = currentImageIndex[productId] + direction;
     const maxIndex = productData.images.length - 1;
 
@@ -89,7 +97,7 @@ function changeProductImage(productId, direction) {
     } else if (newIndex < 0) {
         newIndex = maxIndex;
     }
-    
+
     currentImageIndex[productId] = newIndex;
 
     // Aplica o transform CSS
@@ -151,7 +159,7 @@ function renderCategories() {
 
 function filterByCategory(categoryId, event) {
     currentCategory = categoryId;
-    
+
     // Atualizar botões
     document.querySelectorAll('.category-btn').forEach(btn => {
         btn.classList.remove('active');
@@ -211,20 +219,20 @@ function renderProducts() {
     // Adicionar listeners aos botões de tamanho
     sizes.forEach(size => {
         document.querySelectorAll(`[data-size="${size}"]`).forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 this.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
                 this.classList.add('selected');
             });
         });
     });
-    
+
     // Resetar ou aplicar o estado inicial do carrossel do produto (opcional)
     currentProducts.forEach(product => {
         const imageContainer = document.getElementById(`productImages-${product.id}`);
         if (imageContainer) {
             // Garante que a primeira imagem (índice 0) esteja visível ao renderizar
             imageContainer.style.transform = `translateX(0%)`;
-            currentImageIndex[product.id] = 0; 
+            currentImageIndex[product.id] = 0;
         }
     });
 }
@@ -235,7 +243,7 @@ function renderProducts() {
 function addToCart(productId) {
     const product = Object.values(products).flatMap(category => category).find(p => p.id === productId);
     const sizeBtn = document.querySelector(`#sizes-${productId} .size-btn.selected`);
-    
+
     if (!sizeBtn) {
         alert('Por favor, selecione um tamanho!');
         return;
@@ -347,7 +355,7 @@ renderCategories();
 renderProducts();
 renderCartItems();
 
-async function carregarProdutos(){
+async function carregarProdutos() {
 
     const resposta = await fetch("http://localhost:8080/produtos");
 

@@ -12,7 +12,7 @@ body {
 
 /* ===== HEADER ===== */
 header {
-    background-color: #1a1a1a;
+    background-color: #504f4f;
     color: white;
     padding: 1rem 2rem;
     display: flex;
@@ -100,6 +100,7 @@ header {
     overflow: hidden;
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     transition: all 0.3s;
+    flex-direction: column;
 }
 .product-card:hover {
     transform: translateY(-10px);
@@ -111,6 +112,7 @@ header {
     position: relative;
     overflow: hidden;
     background-color: #f5f5f5;
+    aspect-ratio:3/3;/*DEIXA TUDO PADRONIZADO, O TAMANHO DA IMAGEM*/
 }
 .product-image-container {
     display: flex;

@@ -1,21 +1,22 @@
 // ---- DADOS (COPIADOS DO SEU CÓDIGO ORIGINAL) ----
 const products = {
     temporada: [
-        { id: 1, name: 'Camisa Paris Saint-Germain 24/25', description: 'Tecido respirável e leve', price: 149.90, images: ['../imagensicones/psgfrente.jpeg', '../imagensicones/psgverso.jpeg'] },
-        { id: 2, name: 'Camisa Inter de Milão Total 90', description: 'Perfeita para todos os dias', price: 149.90, images: ['https://via.placeholder.com/400x400?text=Branca+1', 'https://via.placeholder.com/400x400?text=Branca+2'] },
-        { id: 3, name: 'Camisa Amarela Seleção Copa Do Mundo 26/27', description: 'Cor vibrante e moderna', price: 149.90, images: ['https://via.placeholder.com/400x400?text=Amarela+Frente', 'https://via.placeholder.com/400x400?text=Amarela+Costas'] },
+        { id: 1, name: 'Camisa Paris Saint-Germain 24/25', description: 'Temporada', price: 149.90, images: ['../imagensicones/psgfrente.jpeg', '../imagensicones/psgverso.jpeg'] },
+        { id: 2, name: 'Camisa Inter de Milão Total 90', description: 'Total 90', price: 149.90, images: ['../imagensicones/intermilaototal90.png', '../imagensicones/intermilaototal90verso.png'] },
+        { id: 3, name: 'Camisa Amarela Seleção Copa Do Mundo 26/27', description: 'Copa do Mundo', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Amarela+Frente', 'https://via.placeholder.com/400x400?text=Amarela+Costas'] },
+        { id: 4, name: 'Camisa Alemanha Copa Do Mundo 26/27', description: 'Copa do Mundo', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Amarela+Frente', 'https://via.placeholder.com/400x400?text=Amarela+Costas'] },
     ],
     retro: [
-        { id: 4, name: 'Camisa Vintage Retrô', description: 'Estilo dos anos 80', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Vintage+1'] },
-        { id: 5, name: 'Camisa Estampa Clássica', description: 'Design retrô autêntico', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Estampa'] },
+        { id: 5, name: 'Camisa Barcelona 17/18', description: 'Retrô', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Vintage+1'] },
+        { id: 6, name: 'Camisa Estampa Clássica', description: 'Design retrô autêntico', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Estampa'] },
     ],
     mangalonga: [
-        { id: 6, name: 'Camisa Manga Longa Preta', description: 'Elegante e sofisticada', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Preta'] },
-        { id: 7, name: 'Camisa Manga Longa Jeans', description: 'Confortável e versátil', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Jeans'] },
+        { id: 7, name: 'Camisa Manga Longa Preta', description: 'Elegante e sofisticada', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Preta'] },
+        { id: 8, name: 'Camisa Manga Longa Jeans', description: 'Confortável e versátil', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Jeans'] },
     ]
 };
 
-const sizes = ['P', 'M', 'G', 'GG', 'XG'];
+const sizes = ['P', 'M', 'G', 'GG'];
 let cart = [];
 let currentImageIndex = {};
 
