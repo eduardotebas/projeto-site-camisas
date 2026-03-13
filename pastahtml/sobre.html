@@ -11,16 +11,38 @@
 
 <body>
 
-    <header>
-        <div class="logo">HERINGER STORE</div>
+     <header>
+        <a href="paginaentrada.html" style="text-decoration: none">
+            <div class="logo">HERINGER STORE</div>
+        </a>
         <div class="nav-right">
             <ul class="nav-links">
                 <li><a href="paginaentrada.html">Início</a></li>
                 <li><a href="camisas.html">Camisas</a></li>
                 <li><a href="sobre.html">Sobre</a></li>
             </ul>
+            <div class="cart-icon" id="cartIcon">
+                🛒
+                <span class="cart-count" id="cartCount">0</span>
+            </div>
+            <div class="btn-login">
+                <button style="background: transparent; cursor: pointer; border:none;" onclick="teste()">
+                👤
+                </button>
+            </div>
         </div>
     </header>
+      <div class="modal" id="cartModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Seu Carrinho</h2>
+                <button class="close-modal" id="closeCart">&times;</button>
+            </div>
+            <div id="cartItems"></div>
+            <div id="cartSummary"></div>
+        </div>
+    </div>
+
 
     <main>
         <section class="about-section">
@@ -62,6 +84,10 @@
             </div>
         </section>
     </main>
+
+
+
+    <script src="../passajs/sobre.js"></script>
 </body>
 
 </html>

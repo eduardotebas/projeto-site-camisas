@@ -3,7 +3,7 @@ const products = {
     temporada: [
         { id: 1, name: 'Camisa Paris Saint-Germain 24/25', description: 'Temporada', price: 149.90, images: ['../imagensicones/psgfrente.jpeg', '../imagensicones/psgverso.jpeg'] },
         { id: 2, name: 'Camisa Inter de Milão III - Total 90', description: 'Total 90', price: 149.90, images: ['../imagensicones/intermilaototal90.png', '../imagensicones/intermilaototal90verso.png'] },
-        { id: 3, name: 'Camisa Amarela Seleção Copa Do Mundo 26/27', description: 'Copa do Mundo', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Amarela+Frente', 'https://via.placeholder.com/400x400?text=Amarela+Costas'] },
+        { id: 3, name: 'Camisa Amarela Seleção Copa Do Mundo 26/27', description: 'Copa do Mundo', price: 179.90, images: ['../imagensicones/CamisaBrasaCopadoMundo.png', '../imagensicones/CamisaBrasaCopadoMundoVerso.png'] },
         { id: 4, name: 'Camisa Alemanha Copa Do Mundo 26/27', description: 'Copa do Mundo', price: 179.90, images: ['../imagensicones/CamisaAlemanhaCopa2.png', '../imagensicones/CamisaAlemanhaCopaVerso.png', '../imagensicones/CamisaAlemanhaCopa.png'] },
         { id: 5, name: 'Camisa FC Porto 25/26', description: 'Temporada', price: 149.90, images: ['../imagensicones/CamisaPorto.png', '../imagensicones/CamisaPortoVerso.png'] },
     ],

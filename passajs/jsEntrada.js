@@ -28,8 +28,8 @@ const products = {
             description: 'Copa do Mundo',
             price: 179.90,
             images: [
-                'https://via.placeholder.com/400x400?text=Amarela+Frente',
-                'https://via.placeholder.com/400x400?text=Amarela+Costas'
+                '../imagensicones/CamisaBrasaCopadoMundo.png',
+                '../imagensicones/CamisaBrasaCopadoMundoVerso.png'
             ]
         },
          {

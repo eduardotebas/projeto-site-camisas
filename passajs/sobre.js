@@ -1,0 +1,195 @@
+const products = {
+    // ⚠️ ATUALIZE AQUI COM ARRAY DE IMAGENS ⚠️
+    // Use URLs de imagem reais (ou caminhos como 'img/camisa1_frente.jpg')
+    temporada: [
+        {
+            id: 1,
+            name: 'Camisa Paris Saint-Germain 24/25',
+            description: 'Tecido respirável e leve',
+            price: 149.90,
+            images: [
+                '../imagensicones/psgfrente.jpeg',
+                '../imagensicones/psgverso.jpeg',
+            ]
+        },
+        {
+            id: 2,
+            name: 'Camisa Inter de Milão III - Total 90',
+            description: 'Total 90',
+            price: 149.90,
+            images: [
+                '../imagensicones/intermilaototal90.png',
+                '../imagensicones/intermilaototal90verso.png'
+            ]
+        },
+        {
+            id: 3,
+            name: 'Camisa Amarela Seleção Copa Do Mundo 26/27',
+            description: 'Copa do Mundo',
+            price: 179.90,
+            images: [
+                '../imagensicones/CamisaBrasaCopadoMundo.png',
+                '../imagensicones/CamisaBrasaCopadoMundoVerso.png'
+            ]
+        },
+         {
+            id: 4,
+            name: 'Camisa Alemanha Copa Do Mundo 26/27',
+            description: 'Copa do Mundo', price: 179.90, 
+            images:[
+                '../imagensicones/CamisaAlemanhaCopa2.png',
+                '../imagensicones/CamisaAlemanhaCopaVerso.png',
+                '../imagensicones/CamisaAlemanhaCopa.png'
+            ]},
+             { 
+                id: 5,
+                 name: 'Camisa FC Porto 25/26',
+                  description: 'Temporada',
+                   price: 149.90,
+                    images: [
+                        '../imagensicones/CamisaPorto.png',
+                        '../imagensicones/CamisaPortoVerso.png'
+                    ] },
+    ],
+    retro: [
+        { id: 6,
+         name: 'Camisa Barcelona 17/18',
+         description: 'Retrô', price: 179.90,
+         images: [
+            'https://via.placeholder.com/400x400?text=Retro+Vintage+1'
+        ] },
+        {
+             id: 7,
+             name: 'Camisa Estampa Clássica',
+             description: 'Design retrô autêntico',
+             price: 179.90,
+             images: ['https://via.placeholder.com/400x400?text=Retro+Estampa'      
+     ] },
+        { id: 8,
+             name: 'Camisa Xadrez Vintage',
+             description: 'Padrão dos 90s',
+             price: 179.90, images: [
+                'https://via.placeholder.com/400x400?text=Xadrez+90s'
+            ] },
+    ],
+    mangalonga: [
+        { id: 9,
+            name: 'Camisa Manga Longa Preta',
+            description: 'Elegante e sofisticada',
+            price: 179.90,
+            images: [
+                'https://via.placeholder.com/400x400?text=Manga+Longa+Preta'
+            ] },
+        { id: 10,
+            name: 'Camisa Manga Longa Jeans',
+            description: 'Confortável e versátil',
+            price: 179.90,
+            images: [
+                'https://via.placeholder.com/400x400?text=Manga+Longa+Jeans'
+
+            ] },
+        { id: 11,
+            name: 'Camisa Manga Longa Social',
+            description: 'Ideal para trabalho',
+            price: 179.90,
+            images: [
+                'https://via.placeholder.com/400x400?text=Manga+Longa+Social'
+            ] },
+    ]
+};
+
+
+const cartIcon = document.getElementById('cartIcon');
+const cartModal = document.getElementById('cartModal');
+const closeCart = document.getElementById('closeCart');
+
+// Abrir carrinho ao clicar no ícone
+cartIcon.addEventListener('click', () => {
+    cartModal.classList.add('active');
+});
+
+// Fechar carrinho ao clicar no X
+closeCart.addEventListener('click', () => {
+    cartModal.classList.remove('active');
+});
+
+// Fechar ao clicar fora da barra branca (no fundo escuro)
+window.addEventListener('click', (event) => {
+    if (event.target === cartModal) {
+        cartModal.classList.remove('active');
+    }
+});
+
+
+
+function selectSize(productId, btn) {
+    // Remove a seleção de todos os botões daquele produto
+    const buttons = document.querySelectorAll(`#sizes-${productId} .size-btn`);
+    buttons.forEach(b => b.classList.remove('selected'));
+    
+    // Adiciona ao botão clicado
+    btn.classList.add('selected');
+}
+
+
+document.getElementById('cartIcon').addEventListener('click', () => {
+    document.getElementById('sidecart').classList.toggle('active');
+});
+
+
+let cart =[];
+
+
+
+// ---- CARRINHO ----
+function addToCart(productId) {
+    const product = Object.values(products).flat().find(p => p.id === productId);
+    const sizeBtn = document.querySelector(`#sizes-${productId} .size-btn.selected`);
+    if (!sizeBtn) return alert('Selecione um tamanho!');
+    const size = sizeBtn.textContent;
+    const cartItem = { ...product, id: Date.now(), size };
+    cart.push(cartItem);
+    updateCart();
+}
+function removeFromCart(itemId) {
+    cart = cart.filter(item => item.id !== itemId);
+    updateCart();
+}
+function updateCart() {
+    document.getElementById('cartCount').textContent = cart.length;
+    renderCartItems();
+}
+function renderCartItems() {
+    const container = document.getElementById('cartItems');
+    const summary = document.getElementById('cartSummary');
+    if (cart.length === 0) {
+        container.innerHTML = '<div class="cart-empty">Seu carrinho está vazio</div>';
+        summary.innerHTML = '';
+        return;
+    }
+    container.innerHTML = cart.map(item => `
+        <div class="cart-item">
+            <div>
+                <div class="cart-item-name">${item.name}</div>
+                <div>Tamanho: ${item.size}</div>
+                <div>R$ ${item.price.toFixed(2)}</div>
+            </div>
+            <button class="remove-btn" onclick="removeFromCart(${item.id})">Remover</button>
+        </div>
+    `).join('');
+    const total = cart.reduce((t, i) => t + i.price, 0);
+    summary.innerHTML = `
+        <div class="cart-total">
+            <div>Subtotal: R$ ${total.toFixed(2)}</div>
+            <div>Frete: R$ 15.00</div>
+            <div class="total-amount">Total: R$ ${(total + 15).toFixed(2)}</div>
+            <button class="checkout-btn" onclick="checkout()">Finalizar Compra</button>
+        </div>
+    `;
+}
+function checkout() {
+    if (cart.length === 0) return;
+    alert(`Compra finalizada! Total: R$ ${(cart.reduce((t, i) => t + i.price, 15)).toFixed(2)}`);
+    cart = [];
+    updateCart();
+}
