@@ -14,7 +14,7 @@ const products = {
         },
         {
             id: 2,
-            name: 'Camisa Inter de Milão Total 90',
+            name: 'Camisa Inter de Milão III - Total 90',
             description: 'Total 90',
             price: 149.90,
             images: [
@@ -37,28 +37,64 @@ const products = {
             name: 'Camisa Alemanha Copa Do Mundo 26/27',
             description: 'Copa do Mundo', price: 179.90, 
             images:[
-                'https://via.placeholder.com/400x400?text=Amarela+Frente',
-                'https://via.placeholder.com/400x400?text=Amarela+Costas']
-        },
+                '../imagensicones/CamisaAlemanhaCopa2.png',
+                '../imagensicones/CamisaAlemanhaCopaVerso.png',
+                '../imagensicones/CamisaAlemanhaCopa.png'
+            ]},
+             { 
+                id: 5,
+                 name: 'Camisa FC Porto 25/26',
+                  description: 'Temporada',
+                   price: 149.90,
+                    images: [
+                        '../imagensicones/CamisaPorto.png',
+                        '../imagensicones/CamisaPortoVerso.png'
+                    ] },
     ],
     retro: [
+        { id: 6,
+         name: 'Camisa Barcelona 17/18',
+         description: 'Retrô', price: 179.90,
+         images: [
+            'https://via.placeholder.com/400x400?text=Retro+Vintage+1'
+        ] },
         {
-            id: 5,
-            name: 'Camisa Vintage Retrô',
-            description: 'Estilo dos anos 80',
-            price: 179.90,
-            images: [
-                'https://via.placeholder.com/400x400?text=Retro+Vintage+1',
-                'https://via.placeholder.com/400x400?text=Retro+Vintage+2'
-            ]
-        },
-        { id: 6, name: 'Camisa Estampa Clássica', description: 'Design retrô autêntico', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Estampa'] },
-        { id: 7, name: 'Camisa Xadrez Vintage', description: 'Padrão dos 90s', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Xadrez+90s'] },
+             id: 7,
+             name: 'Camisa Estampa Clássica',
+             description: 'Design retrô autêntico',
+             price: 179.90,
+             images: ['https://via.placeholder.com/400x400?text=Retro+Estampa'      
+     ] },
+        { id: 8,
+             name: 'Camisa Xadrez Vintage',
+             description: 'Padrão dos 90s',
+             price: 179.90, images: [
+                'https://via.placeholder.com/400x400?text=Xadrez+90s'
+            ] },
     ],
     mangalonga: [
-        { id: 8, name: 'Camisa Manga Longa Preta', description: 'Elegante e sofisticada', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Preta'] },
-        { id: 9, name: 'Camisa Manga Longa Jeans', description: 'Confortável e versátil', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Jeans'] },
-        { id: 10, name: 'Camisa Manga Longa Social', description: 'Ideal para trabalho', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Social'] },
+        { id: 9,
+            name: 'Camisa Manga Longa Preta',
+            description: 'Elegante e sofisticada',
+            price: 179.90,
+            images: [
+                'https://via.placeholder.com/400x400?text=Manga+Longa+Preta'
+            ] },
+        { id: 10,
+            name: 'Camisa Manga Longa Jeans',
+            description: 'Confortável e versátil',
+            price: 179.90,
+            images: [
+                'https://via.placeholder.com/400x400?text=Manga+Longa+Jeans'
+
+            ] },
+        { id: 11,
+            name: 'Camisa Manga Longa Social',
+            description: 'Ideal para trabalho',
+            price: 179.90,
+            images: [
+                'https://via.placeholder.com/400x400?text=Manga+Longa+Social'
+            ] },
     ]
 };
 

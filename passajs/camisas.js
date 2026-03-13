@@ -2,17 +2,18 @@
 const products = {
     temporada: [
         { id: 1, name: 'Camisa Paris Saint-Germain 24/25', description: 'Temporada', price: 149.90, images: ['../imagensicones/psgfrente.jpeg', '../imagensicones/psgverso.jpeg'] },
-        { id: 2, name: 'Camisa Inter de Milão Total 90', description: 'Total 90', price: 149.90, images: ['../imagensicones/intermilaototal90.png', '../imagensicones/intermilaototal90verso.png'] },
+        { id: 2, name: 'Camisa Inter de Milão III - Total 90', description: 'Total 90', price: 149.90, images: ['../imagensicones/intermilaototal90.png', '../imagensicones/intermilaototal90verso.png'] },
         { id: 3, name: 'Camisa Amarela Seleção Copa Do Mundo 26/27', description: 'Copa do Mundo', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Amarela+Frente', 'https://via.placeholder.com/400x400?text=Amarela+Costas'] },
-        { id: 4, name: 'Camisa Alemanha Copa Do Mundo 26/27', description: 'Copa do Mundo', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Amarela+Frente', 'https://via.placeholder.com/400x400?text=Amarela+Costas'] },
+        { id: 4, name: 'Camisa Alemanha Copa Do Mundo 26/27', description: 'Copa do Mundo', price: 179.90, images: ['../imagensicones/CamisaAlemanhaCopa2.png', '../imagensicones/CamisaAlemanhaCopaVerso.png', '../imagensicones/CamisaAlemanhaCopa.png'] },
+        { id: 5, name: 'Camisa FC Porto 25/26', description: 'Temporada', price: 149.90, images: ['../imagensicones/CamisaPorto.png', '../imagensicones/CamisaPortoVerso.png'] },
     ],
     retro: [
-        { id: 5, name: 'Camisa Barcelona 17/18', description: 'Retrô', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Vintage+1'] },
-        { id: 6, name: 'Camisa Estampa Clássica', description: 'Design retrô autêntico', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Estampa'] },
+        { id: 6, name: 'Camisa Barcelona 17/18', description: 'Retrô', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Vintage+1'] },
+        { id: 7, name: 'Camisa Estampa Clássica', description: 'Design retrô autêntico', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Retro+Estampa'] },
     ],
     mangalonga: [
-        { id: 7, name: 'Camisa Manga Longa Preta', description: 'Elegante e sofisticada', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Preta'] },
-        { id: 8, name: 'Camisa Manga Longa Jeans', description: 'Confortável e versátil', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Jeans'] },
+        { id: 8, name: 'Camisa Manga Longa Preta', description: 'Elegante e sofisticada', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Preta'] },
+        { id: 9, name: 'Camisa Manga Longa Jeans', description: 'Confortável e versátil', price: 179.90, images: ['https://via.placeholder.com/400x400?text=Manga+Longa+Jeans'] },
     ]
 };
 

@@ -615,6 +615,7 @@
     transition: transform 0.3s ease-in-out; 
     height: 100%; /* Ocupa a altura total do .product-image */
     width: 100%; /* Ocupa a largura total do .product-image */
+    aspect-ratio: 3/3;
 }
 
 .product-image-container img {
