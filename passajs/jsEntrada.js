@@ -1,4 +1,4 @@
-const products = {
+/*const products = {
     // ⚠️ ATUALIZE AQUI COM ARRAY DE IMAGENS ⚠️
     // Use URLs de imagem reais (ou caminhos como 'img/camisa1_frente.jpg')
     temporada: [
@@ -96,7 +96,9 @@ const products = {
                 'https://via.placeholder.com/400x400?text=Manga+Longa+Social'
             ] },
     ]
-};
+};*/
+
+let productsFromDB = [];
 
 const categories = [
     { id: 'temporada', name: 'Temporada Atual', icon: '☀️' },
@@ -217,40 +219,30 @@ function filterByCategory(categoryId, event) {
 // --- PRODUTOS (ATUALIZADA) ---
 function renderProducts() {
     const grid = document.getElementById('productsGrid');
-    const currentProducts = products[currentCategory];
+    
+    // Filtramos a lista global pela categoria selecionada (ex: 'temporada', 'retro')
+    // Assumindo que no seu Java você salvou o campo 'descricao' ou criou um campo 'categoria'
+    const currentProducts = productsFromDB.filter(p => p.categoria === currentCategory || p.description === currentCategory);
+
+    if (currentProducts.length === 0) {
+        grid.innerHTML = '<div class="cart-empty">Nenhum produto encontrado nesta categoria.</div>';
+        return;
+    }
 
     grid.innerHTML = currentProducts.map(product => `
         <div class="product-card">
             <div class="product-image">
-                <div class="product-image-container" id="productImages-${product.id}">
-                    ${product.images.map((imgUrl, index) => `
-                        <img 
-                            src="${imgUrl}" 
-                            alt="${product.name} - Imagem ${index + 1}" 
-                        >
-                    `).join('')}
-                </div>
-                ${product.images.length > 1 ? `
-                    <div class="product-image-controls">
-                        <button class="image-arrow prev" onclick="changeProductImage(${product.id}, -1)">&#10094;</button>
-                        <button class="image-arrow next" onclick="changeProductImage(${product.id}, 1)">&#10095;</button>
-                    </div>
-                ` : ''}
+                <img src="${product.imagemUrl || '../imagensicones/placeholder.png'}" alt="${product.nome}">
             </div>
             <div class="product-info">
-                <div class="product-category">${categories.find(c => c.id === currentCategory).name}</div>
-                <div class="product-title">${product.name}</div>
-                <div class="product-description">${product.description}</div>
-                <div class="product-price">R$ ${product.price.toFixed(2)}</div>
-                <div class="size-selector" id="sizes-${product.id}">
-                    ${sizes.map(size => `
-                        <button class="size-btn" data-size="${size}">${size}</button>
-                    `).join('')}
-                </div>
+                <div class="product-title">${product.nome}</div>
+                <div class="product-description">${product.descricao}</div>
+                <div class="product-price">R$ ${product.preco.toFixed(2)}</div>
                 <button class="add-to-cart-btn" onclick="addToCart(${product.id})">Adicionar ao Carrinho</button>
             </div>
         </div>
     `).join('');
+}
 
     // Adicionar listeners aos botões de tamanho
     sizes.forEach(size => {
@@ -392,16 +384,50 @@ renderProducts();
 renderCartItems();
 
 async function carregarProdutos() {
-
-    const resposta = await fetch("http://localhost:8080/produtos");
-
-    const produtos = await resposta.json();
-
-    console.log(produtos);
-
+    try {
+        const resposta = await fetch("http://localhost:8080/produtos");
+        if (!resposta.ok) throw new Error("Erro ao buscar produtos");
+        
+        produtosDoBanco = await resposta.json();
+        
+        // Mapeia os dados para o formato que seu JS espera (se necessário)
+        productsFromDB = produtosDoBanco; 
+        
+        renderProducts(); // Desenha os produtos na tela
+    } catch (erro) {
+        console.error("Erro de conexão com o servidor Java:", erro);
+        alert("O servidor backend está desligado!");
+    }
 }
 
 carregarProdutos();
+
+
+//PARA QUE O CADASTRO FUNCIONE
+
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const novoUsuario = {
+        nome: e.target.querySelector('input[type="text"]').value,
+        email: e.target.querySelector('input[type="email"]').value,
+        senha: e.target.querySelector('input[type="password"]').value,
+        perfil: "COMPRADOR" // Padrão para quem se cadastra no site
+    };
+
+    const response = await fetch("http://localhost:8080/usuarios", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(novoUsuario)
+    });
+
+    if (response.ok) {
+        alert("Cadastro realizado com sucesso!");
+        switchTab('login');
+    } else {
+        alert("Erro ao cadastrar.");
+    }
+});
 
 
 

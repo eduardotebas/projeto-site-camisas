@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+/*@Service
 public class ProdutoService {
 
     @Autowired
@@ -17,4 +17,21 @@ public class ProdutoService {
         return repository.listar();
     }
 
+}*/
+
+@Service
+public class ProdutoService {
+
+    @Autowired
+    private ProdutoRepository repository;
+
+    // Para o Comprador ver as camisas
+    public List<Produto> listarProdutos(){
+        return repository.findAll(); // O JPA já tem esse método pronto
+    }
+
+    // Para o Admin cadastrar novas camisas
+    public Produto salvarProduto(Produto produto) {
+        return repository.save(produto);
+    }
 }
