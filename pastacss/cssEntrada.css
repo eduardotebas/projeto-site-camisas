@@ -509,6 +509,11 @@ header {
     display: flex !important;
 }
 
+#cartModal.active, #loginModal.active {
+    display: block; /* ou a lógica de transformar/traduzir que você usou */
+    right: 0; /* se for aba lateral */
+}
+
 .modal-content {
     background-color: white;
     width: 400px;
@@ -518,6 +523,7 @@ header {
     position: absolute;
     right: 0;
     transition: transform 0.3s ease-in-out;
+    animation: slideIn 0.3s ease;
 }
 
 @keyframes slideIn {

@@ -98,6 +98,24 @@
     ]
 };*/
 
+document.addEventListener('DOMContentLoaded', () => {
+    const loginModal = document.getElementById('loginModal');
+    const profileBtn = document.getElementById('profileBtn');
+    const closeLogin = document.getElementById('closeLogin');
+
+    if (profileBtn) {
+        profileBtn.addEventListener('click', () => {
+            loginModal.classList.add('active');
+        });
+    }
+
+    if (closeLogin) {
+        closeLogin.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+        });
+    }
+});
+
 let productsFromDB = [];
 
 const categories = [
@@ -219,28 +237,32 @@ function filterByCategory(categoryId, event) {
 // --- PRODUTOS (ATUALIZADA) ---
 function renderProducts() {
     const grid = document.getElementById('productsGrid');
-    
-    // Agora filtramos usando a lista que veio do banco de dados (MySQL)
-    const currentProducts = productsFromDB.filter(p => p.categoria === currentCategory);
+    if (!grid) return;
+
+    // Filtro seguro: verifica se p.categoria existe antes de tratar o texto
+    const currentProducts = productsFromDB.filter(p => {
+        if (!p.categoria) return false; 
+        return p.categoria.trim().toLowerCase() === currentCategory.trim().toLowerCase();
+    });
 
     if (currentProducts.length === 0) {
-        grid.innerHTML = '<div class="cart-empty">Nenhuma camisa cadastrada nesta categoria.</div>';
+        grid.innerHTML = '<div class="cart-empty">Nenhuma camisa nesta categoria.</div>';
         return;
     }
 
     grid.innerHTML = currentProducts.map(product => `
         <div class="product-card">
             <div class="product-image">
-                <img src="${product.imagemUrl}" alt="${product.nome}">
+                <img src="${product.imagemUrl || ''}" alt="${product.nome}" style="width: 100%; height: 100%; object-fit: cover;">
             </div>
             <div class="product-info">
-                <div class="product-category">${product.categoria.toUpperCase()}</div>
-                <div class="product-title">${product.nome}</div>
-                <div class="product-description">${product.descricao}</div>
-                <div class="product-price">R$ ${product.preco.toFixed(2)}</div>
+                <div class="product-category">${(product.categoria || 'Geral').toUpperCase()}</div>
+                <div class="product-title">${product.nome || 'Sem nome'}</div>
+                <div class="product-description">${product.descricao || ''}</div>
+                <div class="product-price">R$ ${(product.preco || 0).toFixed(2)}</div>
                 
                 <div class="size-selector" id="sizes-${product.id}">
-                    ${product.tamanhos.split(',').map(size => `
+                    ${(product.tamanhos || 'P,M,G').split(',').map(size => `
                         <button class="size-btn" data-size="${size.trim()}">${size.trim()}</button>
                     `).join('')}
                 </div>
@@ -250,44 +272,35 @@ function renderProducts() {
         </div>
     `).join('');
 
-    // Reativa os cliques nos botões de tamanho que acabamos de criar
     adicionarListenersTamanho();
 }
 
+
 function adicionarListenersTamanho() {
     document.querySelectorAll('.size-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             this.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
             this.classList.add('selected');
         });
     });
 }
-    // Adicionar listeners aos botões de tamanho
-    sizes.forEach(size => {
-        document.querySelectorAll(`[data-size="${size}"]`).forEach(btn => {
-            btn.addEventListener('click', function () {
-                this.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
-                this.classList.add('selected');
-            });
+// Adicionar listeners aos botões de tamanho
+sizes.forEach(size => {
+    document.querySelectorAll(`[data-size="${size}"]`).forEach(btn => {
+        btn.addEventListener('click', function () {
+            this.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
         });
     });
-
-    // Resetar ou aplicar o estado inicial do carrossel do produto (opcional)
-    currentProducts.forEach(product => {
-        const imageContainer = document.getElementById(`productImages-${product.id}`);
-        if (imageContainer) {
-            // Garante que a primeira imagem (índice 0) esteja visível ao renderizar
-            imageContainer.style.transform = `translateX(0%)`;
-            currentImageIndex[product.id] = 0;
-        }
-    });
+});
 
 
 
 // --- LÓGICA DE CARRINHO (INALTERADA) ---
-
 function addToCart(productId) {
-    const product = Object.values(products).flatMap(category => category).find(p => p.id === productId);
+    // 💡 IMPORTANTE: Mudamos de 'products' para 'productsFromDB'
+    const product = productsFromDB.find(p => p.id === productId);
+
     const sizeBtn = document.querySelector(`#sizes-${productId} .size-btn.selected`);
 
     if (!sizeBtn) {
@@ -298,14 +311,15 @@ function addToCart(productId) {
     const size = sizeBtn.textContent;
     const cartItem = {
         id: Date.now(),
-        ...product,
-        size,
-        category: currentCategory
+        productId: product.id,
+        name: product.nome, // Adequando ao nome que vem do Java (nome)
+        price: product.preco, // Adequando ao nome que vem do Java (preco)
+        size: size
     };
 
     cart.push(cartItem);
     updateCart();
-    showNotification('Adicionado ao carrinho!');
+    alert('Adicionado ao carrinho!');
 }
 
 function removeFromCart(itemId) {
@@ -362,13 +376,20 @@ function renderCartItems() {
 async function checkout() {
     if (cart.length === 0) return;
 
+    // 💡 Tenta recuperar o email salvo no localStorage
+    const emailLogado = localStorage.getItem('usuarioEmail');
+
+    if (!emailLogado) {
+        alert("Você precisa estar logado para finalizar a compra!");
+        loginModal.classList.add('active'); // Abre a barra lateral de login
+        return;
+    }
+
     const total = cart.reduce((sum, item) => sum + item.preco, 0) + 15;
-    
-    // Criamos o resumo dos itens para salvar no banco
     const resumoItens = cart.map(item => `${item.nome} (${item.size})`).join(", ");
 
     const novoPedido = {
-        emailCliente: "cliente_teste@email.com", // Depois pegaremos do login
+        emailCliente: emailLogado, // 💡 Agora usa o email de quem logou!
         itens: resumoItens,
         valorTotal: total
     };
@@ -381,16 +402,15 @@ async function checkout() {
         });
 
         if (response.ok) {
-            alert(`Pedido Confirmado!\nTotal: R$ ${total.toFixed(2)}\nSalvo com sucesso no banco de dados.`);
+            alert(`Pedido Confirmado para ${emailLogado}!\nTotal: R$ ${total.toFixed(2)}`);
             cart = [];
             updateCart();
             document.getElementById('cartModal').classList.remove('active');
         } else {
-            alert("Erro ao salvar pedido no servidor.");
+            alert("Erro ao processar o pedido no servidor.");
         }
     } catch (error) {
-        console.error("Erro:", error);
-        alert("Servidor backend fora do ar!");
+        alert("Servidor indisponível!");
     }
 }
 
@@ -424,34 +444,37 @@ setInterval(nextSlide, 5000);
 // Inicializar
 initCarousel();
 renderCategories();
-renderProducts();
+//renderProducts();
 renderCartItems();
+
+// Remova a chamada solta de renderProducts() que estava aqui
 
 async function carregarProdutos() {
     try {
         const resposta = await fetch("http://localhost:8080/produtos");
         if (!resposta.ok) throw new Error("Erro ao buscar produtos");
-        
-        produtosDoBanco = await resposta.json();
-        
-        // Mapeia os dados para o formato que seu JS espera (se necessário)
-        productsFromDB = produtosDoBanco; 
-        
-        renderProducts(); // Desenha os produtos na tela
+
+        const dados = await resposta.json();
+
+        // 💡 Use o nome exato da variável que o seu renderProducts usa:
+        productsFromDB = dados;
+
+        renderProducts(); // Agora ele vai desenhar as camisas na tela
     } catch (erro) {
-        console.error("Erro de conexão com o servidor Java:", erro);
-        alert("O servidor backend está desligado!");
+        console.error("Erro de conexão:", erro);
+        document.getElementById('productsGrid').innerHTML =
+            '<div class="cart-empty">Servidor offline. Ligue o Spring Boot!</div>';
     }
 }
 
+// Iniciar o carregamento
 carregarProdutos();
-
 
 //PARA QUE O CADASTRO FUNCIONE
 
 document.getElementById('signupForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    
+
     const novoUsuario = {
         nome: e.target.querySelector('input[type="text"]').value,
         email: e.target.querySelector('input[type="email"]').value,
@@ -470,6 +493,38 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
         switchTab('login');
     } else {
         alert("Erro ao cadastrar.");
+    }
+});
+
+// PARA QUE O LOGIN FUNCIONE E SALVE O EMAIL
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const loginData = {
+        email: e.target.querySelector('input[type="email"]').value,
+        senha: e.target.querySelector('input[type="password"]').value
+    };
+
+    try {
+        const response = await fetch("http://localhost:8080/usuarios/login", { // Verifique se seu Controller tem esse endpoint
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(loginData)
+        });
+
+        if (response.ok) {
+            const usuario = await response.json();
+            // 💡 A MÁGICA ACONTECE AQUI: Salva o email na memória do navegador
+            localStorage.setItem('usuarioEmail', usuario.email);
+
+            alert(`Bem-vindo, ${usuario.nome}!`);
+            loginModal.classList.remove('active');
+            // Opcional: mudar o ícone de login para "Sair" ou o nome do usuário
+        } else {
+            alert("Email ou senha incorretos.");
+        }
+    } catch (error) {
+        alert("Erro ao conectar com o servidor para login.");
     }
 });
 
@@ -518,3 +573,18 @@ window.addEventListener('click', (event) => {
         loginModal.classList.remove('active');
     }
 });
+
+// Garante que o código só rode quando o HTML estiver pronto
+window.onload = () => {
+    initCarousel();
+    renderCategories();
+    carregarProdutos(); // Carrega do banco
+    updateCart();
+
+    // Evento do Carrinho
+    const cartIcon = document.getElementById('cartIcon');
+    const cartModal = document.getElementById('cartModal');
+    if(cartIcon && cartModal) {
+        cartIcon.onclick = () => cartModal.classList.add('active');
+    }
+};
