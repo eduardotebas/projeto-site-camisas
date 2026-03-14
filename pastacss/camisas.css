@@ -4,6 +4,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: #333;
@@ -24,12 +25,14 @@ header {
     z-index: 100;
     width: 100%;
 }
+
 .logo {
     font-size: 1.8rem;
     font-weight: bold;
-   letter-spacing: 2px;
+    letter-spacing: 2px;
     color: #afc6cad6;
 }
+
 .nav-right {
     display: flex;
     gap: 2rem;
@@ -37,25 +40,30 @@ header {
     flex: 3;
     justify-content: space-around;
 }
+
 .nav-links {
     display: flex;
     gap: 1.5rem;
     list-style: none;
 }
+
 .nav-links a {
     color: white;
     text-decoration: none;
     transition: color 0.3s;
 }
+
 .nav-links a:hover,
 .nav-links a.active {
     color: #00d4ff;
 }
+
 .cart-icon {
     position: relative;
     font-size: 1.5rem;
     cursor: pointer;
 }
+
 .cart-count {
     position: absolute;
     top: -8px;
@@ -78,6 +86,7 @@ header {
     margin: 3rem auto;
     padding: 0 2rem;
 }
+
 .section-title {
     font-size: 2rem;
     color: #1a1a1a;
@@ -85,6 +94,7 @@ header {
     position: relative;
     padding-bottom: 1rem;
 }
+
 .section-title::after {
     content: '';
     position: absolute;
@@ -108,65 +118,115 @@ header {
     font-size: 15px;
 }
 
-.search-box:hover{
+.search-box:hover {
     transform: translateY(-3px);
     transition: all .5s;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-    
+
 }
 
 .btn-login {
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s;
-        }
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
 
-        .btn-login:hover {
-            background-color: #2f383a;
-        }
+.btn-login:hover {
+    background-color: #2f383a;
+}
+
+/* Estilos específicos para a aba de Login */
+.auth-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: #666;
+    transition: 0.3s;
+}
+
+.auth-tab.active {
+    color: #00d4ff;
+    border-bottom: 2px solid #00d4ff;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-form input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.auth-form input:focus {
+    border-color: #00d4ff;
+    outline: none;
+}
+
 
 .products-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
 }
+
 .product-card {
     background: white;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     transition: all 0.3s;
     flex-direction: column;
 }
+
 .product-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 8px 25px rgba(0,212,255,0.3);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.3);
 }
+
 .product-image {
     width: 100%;
     min-height: 280px;
     position: relative;
     overflow: hidden;
     background-color: #f5f5f5;
-    aspect-ratio:3/3;/*DEIXA TUDO PADRONIZADO, O TAMANHO DA IMAGEM*/
+    aspect-ratio: 3/3;
+    /*DEIXA TUDO PADRONIZADO, O TAMANHO DA IMAGEM*/
 }
+
 .product-image-container {
     display: flex;
     transition: transform 0.3s ease-in-out;
     width: 100%;
 }
+
 .product-image-container img {
     min-width: 100%;
     max-width: 100%;
     height: auto;
     object-fit: contain;
 }
+
 .product-image-controls {
     position: absolute;
     top: 50%;
@@ -176,54 +236,63 @@ header {
     justify-content: space-between;
     padding: 0 5px;
 }
+
 .image-arrow {
-    background: rgba(0,0,0,0.5);
+    background: rgba(0, 0, 0, 0.5);
     color: white;
     border: none;
     padding: 0.5rem;
     border-radius: 50%;
     cursor: pointer;
 }
+
 .image-arrow:hover {
-    background-color: rgba(0,212,255,0.7);
+    background-color: rgba(0, 212, 255, 0.7);
 }
 
 /* ===== INFO ===== */
 .product-info {
     padding: 1.5rem;
 }
+
 .product-title {
     font-size: 1.2rem;
     font-weight: bold;
     margin-bottom: 0.5rem;
 }
+
 .product-description {
     color: #666;
     font-size: 0.9rem;
     margin-bottom: 1rem;
 }
+
 .product-price {
     color: #00d4ff;
     font-size: 1.5rem;
     font-weight: bold;
     margin-bottom: 1rem;
 }
+
 .size-selector {
     display: flex;
     gap: 0.5rem;
     margin-bottom: 1rem;
 }
+
 .size-btn {
     padding: 0.5rem 1rem;
     border: 2px solid #ddd;
     border-radius: 5px;
     cursor: pointer;
 }
+
 .size-btn.selected {
     background-color: #00d4ff;
     color: white;
     border-color: #00d4ff;
 }
+
 .add-to-cart-btn {
     width: 100%;
     background-color: #00d4ff;
@@ -234,6 +303,7 @@ header {
     font-weight: bold;
     cursor: pointer;
 }
+
 .add-to-cart-btn:hover {
     background-color: #00b8d4;
 }

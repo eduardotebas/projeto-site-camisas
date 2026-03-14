@@ -402,3 +402,49 @@ async function carregarProdutos() {
 }
 
 carregarProdutos();
+
+
+
+
+//FUNCIONAMENTO DO LOGIN/CADASTRO POR ABA LATERAL
+
+// Seletores
+const loginModal = document.getElementById('loginModal');
+const profileBtn = document.getElementById('profileBtn'); // Seleciona o botão dentro da div btn-login
+const closeLogin = document.getElementById('closeLogin');
+
+// Abrir Modal de Login
+profileBtn.addEventListener('click', () => {
+    loginModal.classList.add('active');
+});
+
+// Fechar Modal de Login
+closeLogin.addEventListener('click', () => {
+    loginModal.classList.remove('active');
+});
+
+// Função para alternar entre Login e Cadastro
+function switchTab(type) {
+    const loginForm = document.getElementById('loginForm');
+    const signupForm = document.getElementById('signupForm');
+    const tabs = document.querySelectorAll('.auth-tab');
+
+    if (type === 'login') {
+        loginForm.style.display = 'flex';
+        signupForm.style.display = 'none';
+        tabs[0].classList.add('active');
+        tabs[1].classList.remove('active');
+    } else {
+        loginForm.style.display = 'none';
+        signupForm.style.display = 'flex';
+        tabs[0].classList.remove('active');
+        tabs[1].classList.add('active');
+    }
+}
+
+// Fechar ao clicar fora (opcional, mas recomendado)
+window.addEventListener('click', (event) => {
+    if (event.target === loginModal) {
+        loginModal.classList.remove('active');
+    }
+});

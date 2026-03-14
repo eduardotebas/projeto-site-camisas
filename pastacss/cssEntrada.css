@@ -247,28 +247,73 @@ header {
     font-size: 15px;
 }
 
-.search-box:hover{
+.search-box:hover {
     transform: translateY(-3px);
     transition: all .5s;
     box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-    
+
 }
 
 .btn-login {
-            background-color: var(--primary-blue);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s;
-        }
+    background-color: var(--primary-blue);
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s;
+}
 
-        .btn-login:hover {
-            background-color: #2f383a;
-        }
+.btn-login:hover {
+    background-color: #2f383a;
+}
+
+/* Estilos específicos para a aba de Login */
+.auth-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.auth-tab {
+    flex: 1;
+    padding: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    color: #666;
+    transition: 0.3s;
+}
+
+.auth-tab.active {
+    color: #00d4ff;
+    border-bottom: 2px solid #00d4ff;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.auth-form input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+}
+
+.auth-form input:focus {
+    border-color: #00d4ff;
+    outline: none;
+}
+
+
+
 
 .category-list {
     list-style: none;
@@ -461,7 +506,7 @@ header {
 }
 
 .modal.active {
-    display: flex;
+    display: flex !important;
 }
 
 .modal-content {
@@ -470,7 +515,9 @@ header {
     height: 100%;
     padding: 2rem;
     overflow-y: auto;
-    animation: slideIn 0.3s ease;
+    position: absolute;
+    right: 0;
+    transition: transform 0.3s ease-in-out;
 }
 
 @keyframes slideIn {

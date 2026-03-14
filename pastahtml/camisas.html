@@ -28,7 +28,7 @@
                 <span class="cart-count" id="cartCount">0</span>
             </div>
             <div class="btn-login">
-                <button style="background: transparent; cursor: pointer; border:none;">
+                <button id="profileBtn" style="background: transparent; cursor: pointer; border:none;">
                 👤
                 </button>
             </div>
@@ -54,6 +54,37 @@
             <div id="cartSummary"></div>
         </div>
     </div>
+
+    
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Minha Conta</h2>
+            <button class="close-modal" id="closeLogin">&times;</button>
+        </div>
+        
+        <div class="login-container">
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchTab('login')">Login</button>
+                <button class="auth-tab" onclick="switchTab('signup')">Cadastro</button>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <input type="email" placeholder="E-mail" required>
+                <input type="password" placeholder="Senha" required>
+                <button type="submit" class="checkout-btn">Entrar</button>
+                <p style="text-align: center; margin-top: 10px; font-size: 0.8rem; cursor: pointer;">Esqueceu a senha?</p>
+            </form>
+
+            <form id="signupForm" class="auth-form" style="display: none;">
+                <input type="text" placeholder="Nome Completo" required>
+                <input type="email" placeholder="E-mail" required>
+                <input type="password" placeholder="Criar Senha" required>
+                <button type="submit" class="checkout-btn">Criar Conta</button>
+            </form>
+        </div>
+    </div>
+</div>
 
     <script src="../passajs/camisas.js"></script>
 </body>
