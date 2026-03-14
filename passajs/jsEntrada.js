@@ -220,30 +220,48 @@ function filterByCategory(categoryId, event) {
 function renderProducts() {
     const grid = document.getElementById('productsGrid');
     
-    // Filtramos a lista global pela categoria selecionada (ex: 'temporada', 'retro')
-    // Assumindo que no seu Java você salvou o campo 'descricao' ou criou um campo 'categoria'
-    const currentProducts = productsFromDB.filter(p => p.categoria === currentCategory || p.description === currentCategory);
+    // Agora filtramos usando a lista que veio do banco de dados (MySQL)
+    const currentProducts = productsFromDB.filter(p => p.categoria === currentCategory);
 
     if (currentProducts.length === 0) {
-        grid.innerHTML = '<div class="cart-empty">Nenhum produto encontrado nesta categoria.</div>';
+        grid.innerHTML = '<div class="cart-empty">Nenhuma camisa cadastrada nesta categoria.</div>';
         return;
     }
 
     grid.innerHTML = currentProducts.map(product => `
         <div class="product-card">
             <div class="product-image">
-                <img src="${product.imagemUrl || '../imagensicones/placeholder.png'}" alt="${product.nome}">
+                <img src="${product.imagemUrl}" alt="${product.nome}">
             </div>
             <div class="product-info">
+                <div class="product-category">${product.categoria.toUpperCase()}</div>
                 <div class="product-title">${product.nome}</div>
                 <div class="product-description">${product.descricao}</div>
                 <div class="product-price">R$ ${product.preco.toFixed(2)}</div>
+                
+                <div class="size-selector" id="sizes-${product.id}">
+                    ${product.tamanhos.split(',').map(size => `
+                        <button class="size-btn" data-size="${size.trim()}">${size.trim()}</button>
+                    `).join('')}
+                </div>
+                
                 <button class="add-to-cart-btn" onclick="addToCart(${product.id})">Adicionar ao Carrinho</button>
             </div>
         </div>
     `).join('');
+
+    // Reativa os cliques nos botões de tamanho que acabamos de criar
+    adicionarListenersTamanho();
 }
 
+function adicionarListenersTamanho() {
+    document.querySelectorAll('.size-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            this.parentElement.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+            this.classList.add('selected');
+        });
+    });
+}
     // Adicionar listeners aos botões de tamanho
     sizes.forEach(size => {
         document.querySelectorAll(`[data-size="${size}"]`).forEach(btn => {
@@ -263,7 +281,7 @@ function renderProducts() {
             currentImageIndex[product.id] = 0;
         }
     });
-}
+
 
 
 // --- LÓGICA DE CARRINHO (INALTERADA) ---
@@ -341,13 +359,39 @@ function renderCartItems() {
     `;
 }
 
-function checkout() {
+async function checkout() {
     if (cart.length === 0) return;
-    const total = cart.reduce((sum, item) => sum + item.price, 0) + 15;
-    alert(`Compra finalizada! Total: R$ ${total.toFixed(2)}\n\nObrigado por comprar na Heringer Store!`);
-    cart = [];
-    updateCart();
-    document.getElementById('cartModal').classList.remove('active');
+
+    const total = cart.reduce((sum, item) => sum + item.preco, 0) + 15;
+    
+    // Criamos o resumo dos itens para salvar no banco
+    const resumoItens = cart.map(item => `${item.nome} (${item.size})`).join(", ");
+
+    const novoPedido = {
+        emailCliente: "cliente_teste@email.com", // Depois pegaremos do login
+        itens: resumoItens,
+        valorTotal: total
+    };
+
+    try {
+        const response = await fetch("http://localhost:8080/pedidos", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(novoPedido)
+        });
+
+        if (response.ok) {
+            alert(`Pedido Confirmado!\nTotal: R$ ${total.toFixed(2)}\nSalvo com sucesso no banco de dados.`);
+            cart = [];
+            updateCart();
+            document.getElementById('cartModal').classList.remove('active');
+        } else {
+            alert("Erro ao salvar pedido no servidor.");
+        }
+    } catch (error) {
+        console.error("Erro:", error);
+        alert("Servidor backend fora do ar!");
+    }
 }
 
 function showNotification(message) {

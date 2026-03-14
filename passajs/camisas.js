@@ -124,11 +124,45 @@ function renderCartItems() {
         </div>
     `;
 }
-function checkout() {
-    if (cart.length === 0) return;
-    alert(`Compra finalizada! Total: R$ ${(cart.reduce((t, i) => t + i.price, 15)).toFixed(2)}`);
-    cart = [];
-    updateCart();
+async function checkout() {
+    if (cart.length === 0) {
+        alert("Seu carrinho está vazio!");
+        return;
+    }
+
+    const total = cart.reduce((sum, item) => sum + item.preco, 0) + 15;
+    
+    // Criamos o resumo dos itens para salvar no banco
+    const resumoItens = cart.map(item => `${item.nome} (${item.size})`).join(", ");
+
+    const novoPedido = {
+        emailCliente: "cliente_teste@email.com", // Por enquanto fixo para teste
+        itens: resumoItens,
+        valorTotal: total
+    };
+
+    console.log("Tentando enviar pedido:", novoPedido); // Para debug no F12
+
+    try {
+        const response = await fetch("http://localhost:8080/pedidos", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(novoPedido)
+        });
+
+        if (response.ok) {
+            alert(`PEDIDO CONFIRMADO!\nTotal: R$ ${total.toFixed(2)}`);
+            cart = [];
+            updateCart();
+            document.getElementById('cartModal').classList.remove('active');
+        } else {
+            const erroTxt = await response.text();
+            alert("Erro no servidor: " + erroTxt);
+        }
+    } catch (error) {
+        console.error("Erro na requisição:", error);
+        alert("Erro crítico: O servidor Java (Backend) está desligado!");
+    }
 }
 
 // ---- EVENTOS ----

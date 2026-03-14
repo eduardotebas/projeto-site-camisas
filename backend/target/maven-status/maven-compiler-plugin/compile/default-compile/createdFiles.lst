@@ -1,11 +1,12 @@
+com\heringerstore\service\ProdutoService.class
+com\heringerstore\controller\UsuarioController.class
+com\heringerstore\repository\PedidoRepository.class
+com\heringerstore\controller\PedidoController.class
 com\heringerstore\controller\ProdutoController.class
 com\heringerstore\model\Usuario.class
-com\heringerstore\service\ProdutoService.class
 com\heringerstore\service\UsuarioService.class
 com\heringerstore\HeringerStoreApplication.class
 com\heringerstore\model\Pedido.class
-com\heringerstore\controller\UsuarioController.class
-com\heringerstore\controller\PedidoController.class
 com\heringerstore\model\Produto.class
 com\heringerstore\repository\ProdutoRepository.class
 com\heringerstore\repository\UsuarioRepository.class
