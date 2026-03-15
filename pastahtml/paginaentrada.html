@@ -124,8 +124,30 @@
         <h2>PARA PEDIDOS, ENTRE EM CONTATO</h2>
         <p>(27) 998147234</p>
     </div>
+    <button class="btn-perfil" onclick="toggleLogin()">
+    <img src="user-icon.png" width="24">
+</button>
 
     <script src="../passajs/jsEntrada.js"></script>
 </body>
+
+<div id="overlay" onclick="toggleLogin()"></div>
+
+<aside id="loginDrawer" class="drawer">
+    <div class="drawer-header">
+        <span>MINHA CONTA</span>
+        <button class="close-btn" onclick="toggleLogin()">&times;</button>
+    </div>
+
+    <div class="drawer-content">
+        <form id="loginForm">
+            <h3>Entrar</h3>
+            <input type="email" placeholder="E-mail" required>
+            <input type="password" placeholder="Senha" required>
+            <button type="submit" class="btn-primary">ENTRAR</button>
+            <p>Não tem conta? <a href="#" onclick="showRegister()">Cadastre-se</a></p>
+        </form>
+    </div>
+</aside>
 
 </html>

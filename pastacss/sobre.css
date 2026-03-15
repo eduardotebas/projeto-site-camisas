@@ -194,6 +194,16 @@
      /* Efeito de deslizar */
  }
 
+ .user-name-logged {
+    font-weight: bold;
+    color: #00bcd4; /* Cor destaque da sua loja */
+    font-size: 0.9rem;
+    border: 1px solid #00bcd4;
+    padding: 5px 10px;
+    border-radius: 20px;
+    text-transform: capitalize;
+}
+
  /* Animação para a barra vir da direita */
  @keyframes slideIn {
      from {

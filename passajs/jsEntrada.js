@@ -328,8 +328,14 @@ function removeFromCart(itemId) {
 }
 
 function updateCart() {
-    document.getElementById('cartCount').textContent = cart.length;
+    // Mantém sua lógica de atualizar o número no ícone e desenhar os itens
+    const cartCountElement = document.getElementById('cartCount');
+    if (cartCountElement) cartCountElement.textContent = cart.length;
+    
     renderCartItems();
+    
+    // 💡 A LINHA ESSENCIAL: Salva a lista atualizada no LocalStorage
+    localStorage.setItem('carrinhoSalvo', JSON.stringify(cart));
 }
 
 function renderCartItems() {
@@ -373,25 +379,57 @@ function renderCartItems() {
     `;
 }
 
+// Função para verificar se existe alguém logado e atualizar a interface
+function verificarStatusLogin() {
+    const estaLogado = localStorage.getItem('usuarioLogado');
+    const nomeCompleto = localStorage.getItem('usuarioNome');
+    const btnLogin = document.getElementById('profileBtn');
+
+    if (estaLogado === 'true' && nomeCompleto) {
+        // Pega apenas o primeiro nome
+        const primeiroNome = nomeCompleto.split(' ')[0];
+        
+        // Substitui o ícone 👤 pelo nome da pessoa
+        btnLogin.innerHTML = `<span class="user-name-logged">${primeiroNome}</span>`;
+        btnLogin.title = "Clique para sair";
+        
+        // Muda o comportamento do botão para "Logout" caso ele clique de novo
+        btnLogin.onclick = confirmarLogout;
+    }
+}
+
+function confirmarLogout() {
+    if (confirm("Deseja sair da sua conta?")) {
+        localStorage.clear(); // Limpa tudo
+        window.location.reload(); // Recarrega a página para voltar ao estado inicial
+    }
+}
+
+// Chame essa função assim que o script carregar ou no window.onload
+document.addEventListener('DOMContentLoaded', verificarStatusLogin);
+
 async function checkout() {
     if (cart.length === 0) return;
 
-    // 💡 Tenta recuperar o email salvo no localStorage
     const emailLogado = localStorage.getItem('usuarioEmail');
 
     if (!emailLogado) {
         alert("Você precisa estar logado para finalizar a compra!");
-        loginModal.classList.add('active'); // Abre a barra lateral de login
+        document.getElementById('loginModal').classList.add('active');
         return;
     }
 
-    const total = cart.reduce((sum, item) => sum + item.preco, 0) + 15;
-    const resumoItens = cart.map(item => `${item.nome} (${item.size})`).join(", ");
+    // CORREÇÃO: Usando 'item.price' que é como você salvou no addToCart
+    const subtotal = cart.reduce((sum, item) => sum + item.price, 0);
+    const totalComFrete = subtotal + 15;
+
+    // Formatação da lista de itens para o banco de dados
+    const resumoItens = cart.map(item => `- ${item.name} (Tam: ${item.size})`).join("\n");
 
     const novoPedido = {
-        emailCliente: emailLogado, // 💡 Agora usa o email de quem logou!
+        emailCliente: emailLogado,
         itens: resumoItens,
-        valorTotal: total
+        valorTotal: totalComFrete
     };
 
     try {
@@ -402,7 +440,9 @@ async function checkout() {
         });
 
         if (response.ok) {
-            alert(`Pedido Confirmado para ${emailLogado}!\nTotal: R$ ${total.toFixed(2)}`);
+            // ALERTA CORRIGIDO: Agora o valor aparecerá certinho
+            alert(`Pedido Confirmado para ${emailLogado}!\n\nItens:\n${resumoItens}\n\nTotal com Frete: R$ ${totalComFrete.toFixed(2)}`);
+            
             cart = [];
             updateCart();
             document.getElementById('cartModal').classList.remove('active');
@@ -496,7 +536,7 @@ document.getElementById('signupForm').addEventListener('submit', async (e) => {
     }
 });
 
-// PARA QUE O LOGIN FUNCIONE E SALVE O EMAIL
+// PARA QUE O LOGIN FUNCIONE, SALVE OS DADOS E MOSTRE O NOME
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
@@ -506,7 +546,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     };
 
     try {
-        const response = await fetch("http://localhost:8080/usuarios/login", { // Verifique se seu Controller tem esse endpoint
+        const response = await fetch("http://localhost:8080/usuarios/login", { 
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(loginData)
@@ -514,12 +554,17 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
         if (response.ok) {
             const usuario = await response.json();
-            // 💡 A MÁGICA ACONTECE AQUI: Salva o email na memória do navegador
+            
+            // 💡 AQUI ESTÁ A MÁGICA: Salva tudo na memória do navegador
+            localStorage.setItem('usuarioLogado', 'true');
             localStorage.setItem('usuarioEmail', usuario.email);
+            localStorage.setItem('usuarioNome', usuario.nome);
 
             alert(`Bem-vindo, ${usuario.nome}!`);
+            
+            // Fecha o modal e atualiza o ícone para o nome da pessoa
             loginModal.classList.remove('active');
-            // Opcional: mudar o ícone de login para "Sair" ou o nome do usuário
+            verificarStatusLogin(); 
         } else {
             alert("Email ou senha incorretos.");
         }
@@ -528,6 +573,43 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     }
 });
 
+window.onload = () => {
+    initCarousel();
+    renderCategories();
+    carregarProdutos();
+    updateCart();
+    verificarStatusLogin(); // 💡 Adicione isso aqui para ele checar o nome ao abrir a página
+    
+    // ... resto do seu código de cartIcon ...
+};
+
+
+//VERIFICA LOGIN
+
+function verificarLogin() {
+    const nomeSalvo = localStorage.getItem('usuarioLogado');
+    const areaPerfil = document.getElementById('area-perfil');
+
+    if (nomeSalvo) {
+        // Se houver um nome, substitui o ícone pelo nome + um botão de sair
+        areaPerfil.innerHTML = `
+            <span style="color: white; margin-right: 10px; font-weight: bold;">
+                Olá, ${nomeSalvo}
+            </span>
+            <button onclick="logout()" style="background:none; border:none; color:#00CCFF; cursor:pointer; font-size: 12px;">
+                (Sair)
+            </button>
+        `;
+    }
+}
+
+function logout() {
+    localStorage.removeItem('usuarioLogado'); // Apaga o nome
+    window.location.reload(); // Recarrega a página para voltar ao ícone
+}
+
+// Executa a função toda vez que a página abrir
+window.onload = verificarLogin;
 
 
 
@@ -565,6 +647,15 @@ function switchTab(type) {
         tabs[0].classList.remove('active');
         tabs[1].classList.add('active');
     }
+}
+
+function toggleLogin() {
+    const drawer = document.getElementById('loginDrawer');
+    const overlay = document.getElementById('overlay');
+    
+    // Adiciona ou remove a classe 'active' para animar
+    drawer.classList.toggle('active');
+    overlay.classList.toggle('active');
 }
 
 // Fechar ao clicar fora (opcional, mas recomendado)

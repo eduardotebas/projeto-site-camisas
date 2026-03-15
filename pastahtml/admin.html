@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Painel Admin - Heringer Store</title>
+    <link rel="stylesheet" href="../pastacss/cssEntrada.css">
+    <style>
+        .admin-form { max-width: 500px; margin: 50px auto; padding: 20px; background: #f4f4f4; border-radius: 8px; }
+        .admin-form input, .admin-form select, .admin-form textarea { 
+            width: 100%; margin-bottom: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 4px;
+        }
+        .btn-cadastrar { background: #00bcd4; color: white; border: none; padding: 10px 20px; cursor: pointer; width: 100%; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="admin-form">
+        <h2>Cadastrar Nova Camisa</h2>
+        <form id="formProduto">
+            <input type="text" id="nome" placeholder="Nome da Camisa (ex: Camisa Real Madrid)" required>
+            <textarea id="descricao" placeholder="Descrição (ex: Modelo 2024 Player Version)"></textarea>
+            <input type="number" id="preco" placeholder="Preço (ex: 149.90)" step="0.01" required>
+            <input type="number" id="quantidade" placeholder="Estoque inicial" required>
+            <input type="text" id="tamanhos" placeholder="Tamanhos (ex: P, M, G, GG)" required>
+            <input type="text" id="imagemUrl" placeholder="Caminho da Imagem (ex: ../imagensicones/foto.jpg)" required>
+            
+            <label>Categoria:</label>
+            <select id="categoria">
+                <option value="temporada">Temporada Atual</option>
+                <option value="retro">Retrô</option>
+                <option value="mangalonga">Manga Longa</option>
+            </select>
+            
+            <button type="submit" class="btn-cadastrar">CADASTRAR NO BANCO</button>
+        </form>
+        <br>
+        <a href="paginaentrada.html">Voltar para a Loja</a>
+    </div>
+
+    <div class="admin-form" style="max-width: 800px;">
+    <h2>Gerenciar Produtos</h2>
+    <table style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <thead>
+            <tr style="background: #eee;">
+                <th style="padding: 10px; border: 1px solid #ddd;">ID</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Nome</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Preço</th>
+                <th style="padding: 10px; border: 1px solid #ddd;">Ações</th>
+            </tr>
+        </thead>
+        <tbody id="tabelaProdutos">
+            </tbody>
+    </table>
+</div>
+
+    <script src="../passajs/admin.js"></script>
+</body>
+</html>

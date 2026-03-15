@@ -137,7 +137,7 @@ document.getElementById('cartIcon').addEventListener('click', () => {
 });
 
 
-let cart =[];
+let cart = JSON.parse(localStorage.getItem('carrinhoSalvo')) || [];
 
 
 
@@ -156,8 +156,14 @@ function removeFromCart(itemId) {
     updateCart();
 }
 function updateCart() {
-    document.getElementById('cartCount').textContent = cart.length;
+    // Mantém sua lógica de atualizar o número no ícone e desenhar os itens
+    const cartCountElement = document.getElementById('cartCount');
+    if (cartCountElement) cartCountElement.textContent = cart.length;
+    
     renderCartItems();
+    
+    // 💡 A LINHA ESSENCIAL: Salva a lista atualizada no LocalStorage
+    localStorage.setItem('carrinhoSalvo', JSON.stringify(cart));
 }
 function renderCartItems() {
     const container = document.getElementById('cartItems');
@@ -194,8 +200,84 @@ function checkout() {
     updateCart();
 }
 
+//NAVEGAR LOGADO
+
+function atualizarInterfaceUsuario() {
+    const estaLogado = localStorage.getItem('usuarioLogado');
+    const nomeCompleto = localStorage.getItem('usuarioNome');
+    const btnLogin = document.getElementById('profileBtn');
+
+    if (estaLogado === 'true' && nomeCompleto && btnLogin) {
+        const primeiroNome = nomeCompleto.split(' ')[0];
+        
+        // Substitui o ícone pelo nome
+        btnLogin.innerHTML = `<span class="user-name-logged" style="color: #00CCFF; font-weight: bold;">Olá, ${primeiroNome}</span>`;
+        btnLogin.title = "Clique para sair";
+        
+        // Muda a ação do clique: em vez de abrir modal, ele pergunta se quer sair
+        btnLogin.onclick = (e) => {
+            e.stopPropagation();
+            confirmarLogout();
+        };
+    } else if (btnLogin) {
+        // Caso não esteja logado, garante que o ícone apareça e abra o modal
+        btnLogin.innerHTML = "👤";
+        btnLogin.onclick = () => {
+            document.getElementById('loginModal').classList.add('active');
+        };
+    }
+}
+
+function confirmarLogout() {
+    if (confirm("Deseja sair da sua conta?")) {
+        localStorage.clear();
+        window.location.reload();
+    }
+}
+
+function logout() {
+    localStorage.removeItem('usuarioLogado'); // Apaga o nome
+    window.location.reload(); // Recarrega a página para voltar ao ícone
+}
 
 
+//PARTE DA FUNCAO LOGIN
+// PARA QUE O LOGIN FUNCIONE, SALVE OS DADOS E MOSTRE O NOME
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const loginData = {
+        email: e.target.querySelector('input[type="email"]').value,
+        senha: e.target.querySelector('input[type="password"]').value
+    };
+
+    try {
+        const response = await fetch("http://localhost:8080/usuarios/login", { 
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(loginData)
+        });
+
+        if (response.ok) {
+            const usuario = await response.json();
+            
+            // 💡 AQUI ESTÁ A MÁGICA: Salva tudo na memória do navegador
+            localStorage.setItem('usuarioLogado', 'true');
+            localStorage.setItem('usuarioEmail', usuario.email);
+            localStorage.setItem('usuarioNome', usuario.nome);
+
+            alert(`Bem-vindo, ${usuario.nome}!`);
+            
+            // Fecha o modal e atualiza o ícone para o nome da pessoa
+            loginModal.classList.remove('active');
+            verificarStatusLogin(); 
+        } else {
+            alert("Email ou senha incorretos.");
+        }
+    } catch (error) {
+        alert("Erro ao conectar com o servidor para login.");
+    }
+});
 
 //FUNCIONAMENTO DO LOGIN/CADASTRO POR ABA LATERAL
 
@@ -239,3 +321,10 @@ window.addEventListener('click', (event) => {
         loginModal.classList.remove('active');
     }
 });
+
+
+window.onload = () => {
+    renderAllProducts(); // Carrega os produtos da página camisas
+    updateCart();        // Atualiza o contador do carrinho
+    atualizarInterfaceUsuario(); // Checa se tem alguém logado e troca o ícone pelo nome
+};
