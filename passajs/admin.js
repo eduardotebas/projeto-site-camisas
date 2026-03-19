@@ -21,6 +21,7 @@ document.getElementById('formProduto').addEventListener('submit', async (e) => {
         if (response.ok) {
             alert("Produto cadastrado com sucesso no MySQL!");
             document.getElementById('formProduto').reset();
+            carregarProdutosAdmin();
         } else {
             alert("Erro ao cadastrar produto.");
         }
@@ -29,6 +30,20 @@ document.getElementById('formProduto').addEventListener('submit', async (e) => {
         alert("Servidor Java offline!");
     }
 });
+
+// PROTEÇÃO DE ROTA: Verifica se o usuário é ADMIN
+function verificarAcessoAdmin() {
+    const usuarioLogado = localStorage.getItem('usuarioLogado');
+    const perfil = localStorage.getItem('usuarioPerfil'); // Vamos precisar salvar isso no login
+
+    if (usuarioLogado !== 'true' || perfil !== 'ADMIN') {
+        alert("Acesso negado! Esta área é exclusiva para administradores.");
+        window.location.href = "paginaentrada.html"; // Chuta o invasor para a home
+    }
+}
+
+// Executa assim que o script carrega
+verificarAcessoAdmin();
 
 // Função para carregar e exibir os produtos na tabela
 async function carregarProdutosAdmin() {
@@ -48,7 +63,7 @@ async function carregarProdutosAdmin() {
                     <input type="text" value="${p.tamanhos}" id="edit-tamanhos-${p.id}" style="width: 100px;">
                 </td>
                 <td style="padding: 10px; border: 1px solid #ddd;">
-                    <textarea id="edit-desc-${p.id}">${p.descrição || ''}</textarea>
+                    <textarea id="edit-desc-${p.id}">${p.descricao || ''}</textarea>
                 </td>
                 <td style="padding: 10px; border: 1px solid #ddd; text-align: center;">
                     <button onclick="salvarEdicao(${p.id})" style="background: #4caf50; color: white; border: none; padding: 5px 10px; cursor: pointer; border-radius: 4px; margin-bottom: 5px;">Salvar</button>

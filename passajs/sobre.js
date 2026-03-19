@@ -200,6 +200,22 @@ function checkout() {
     updateCart();
 }
 
+
+//ADMIN
+
+function mostrarBotaoAdmin() {
+    const perfil = localStorage.getItem('usuarioPerfil');
+    const areaAdmin = document.getElementById('linkAdmin');
+
+    if (areaAdmin) {
+        if (perfil === 'ADMIN') {
+            areaAdmin.style.display = 'inline'; 
+        } else {
+            areaAdmin.style.display = 'none';
+        }
+    }
+}
+
 //NAVEGAR LOGADO
 
 function atualizarInterfaceUsuario() {
@@ -261,21 +277,22 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         if (response.ok) {
             const usuario = await response.json();
             
-            // 💡 AQUI ESTÁ A MÁGICA: Salva tudo na memória do navegador
             localStorage.setItem('usuarioLogado', 'true');
             localStorage.setItem('usuarioEmail', usuario.email);
             localStorage.setItem('usuarioNome', usuario.nome);
+            // 💡 LINHA ESSENCIAL ADICIONADA:
+            localStorage.setItem('usuarioPerfil', usuario.perfil); 
 
             alert(`Bem-vindo, ${usuario.nome}!`);
             
-            // Fecha o modal e atualiza o ícone para o nome da pessoa
             loginModal.classList.remove('active');
-            verificarStatusLogin(); 
+            atualizarInterfaceUsuario(); 
+            mostrarBotaoAdmin(); // 💡 Faz o botão aparecer na hora
         } else {
             alert("Email ou senha incorretos.");
         }
     } catch (error) {
-        alert("Erro ao conectar com o servidor para login.");
+        alert("Erro ao conectar com o servidor.");
     }
 });
 
@@ -324,7 +341,7 @@ window.addEventListener('click', (event) => {
 
 
 window.onload = () => {
-    renderAllProducts(); // Carrega os produtos da página camisas
     updateCart();        // Atualiza o contador do carrinho
     atualizarInterfaceUsuario(); // Checa se tem alguém logado e troca o ícone pelo nome
+    mostrarBotaoAdmin();
 };

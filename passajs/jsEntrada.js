@@ -168,14 +168,19 @@ function changeProductImage(productId, direction) {
 
 function initCarousel() {
     const dotsContainer = document.getElementById('carouselControls');
-    for (let i = 0; i < 3; i++) {
+
+    // 🔥 ESSENCIAL: limpa antes
+    dotsContainer.innerHTML = "";
+
+    const totalSlides = document.querySelectorAll('.carousel-slide').length;
+
+    for (let i = 0; i < totalSlides; i++) {
         const dot = document.createElement('div');
         dot.className = `dot ${i === 0 ? 'active' : ''}`;
         dot.onclick = () => goToSlide(i);
         dotsContainer.appendChild(dot);
     }
 }
-
 function updateCarousel() {
     const carousel = document.getElementById('carousel');
     carousel.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -559,6 +564,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             localStorage.setItem('usuarioLogado', 'true');
             localStorage.setItem('usuarioEmail', usuario.email);
             localStorage.setItem('usuarioNome', usuario.nome);
+            localStorage.setItem('usuarioPerfil', usuario.perfil);
 
             alert(`Bem-vindo, ${usuario.nome}!`);
             
@@ -573,44 +579,20 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     }
 });
 
-window.onload = () => {
-    initCarousel();
-    renderCategories();
-    carregarProdutos();
-    updateCart();
-    verificarStatusLogin(); // 💡 Adicione isso aqui para ele checar o nome ao abrir a página
-    
-    // ... resto do seu código de cartIcon ...
-};
 
+//ADMIN FUNÇÃO
+function mostrarBotaoAdmin() {
+    const perfil = localStorage.getItem('usuarioPerfil');
+    const areaAdmin = document.getElementById('linkAdmin');
 
-//VERIFICA LOGIN
-
-function verificarLogin() {
-    const nomeSalvo = localStorage.getItem('usuarioLogado');
-    const areaPerfil = document.getElementById('area-perfil');
-
-    if (nomeSalvo) {
-        // Se houver um nome, substitui o ícone pelo nome + um botão de sair
-        areaPerfil.innerHTML = `
-            <span style="color: white; margin-right: 10px; font-weight: bold;">
-                Olá, ${nomeSalvo}
-            </span>
-            <button onclick="logout()" style="background:none; border:none; color:#00CCFF; cursor:pointer; font-size: 12px;">
-                (Sair)
-            </button>
-        `;
+    if (areaAdmin) { // Verifica se o elemento existe na página atual
+        if (perfil === 'ADMIN') {
+            areaAdmin.style.display = 'inline'; // 'block' ou 'inline' dependendo do seu layout
+        } else {
+            areaAdmin.style.display = 'none';
+        }
     }
 }
-
-function logout() {
-    localStorage.removeItem('usuarioLogado'); // Apaga o nome
-    window.location.reload(); // Recarrega a página para voltar ao ícone
-}
-
-// Executa a função toda vez que a página abrir
-window.onload = verificarLogin;
-
 
 
 //FUNCIONAMENTO DO LOGIN/CADASTRO POR ABA LATERAL
@@ -667,10 +649,15 @@ window.addEventListener('click', (event) => {
 
 // Garante que o código só rode quando o HTML estiver pronto
 window.onload = () => {
+    // Inicializações de Interface
     initCarousel();
     renderCategories();
-    carregarProdutos(); // Carrega do banco
+    carregarProdutos();
     updateCart();
+    
+    // Inicializações de Segurança e Login
+    verificarStatusLogin(); 
+    mostrarBotaoAdmin(); // Agora ele vai rodar sem ser apagado!
 
     // Evento do Carrinho
     const cartIcon = document.getElementById('cartIcon');

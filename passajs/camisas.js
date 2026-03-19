@@ -183,6 +183,7 @@ function atualizarInterfaceUsuario() {
     const estaLogado = localStorage.getItem('usuarioLogado');
     const nomeCompleto = localStorage.getItem('usuarioNome');
     const btnLogin = document.getElementById('profileBtn');
+    
 
     if (estaLogado === 'true' && nomeCompleto && btnLogin) {
         const primeiroNome = nomeCompleto.split(' ')[0];
@@ -202,6 +203,21 @@ function atualizarInterfaceUsuario() {
         btnLogin.onclick = () => {
             document.getElementById('loginModal').classList.add('active');
         };
+    }
+}
+
+//PERFIL ADMIN
+
+function mostrarBotaoAdmin() {
+    const perfil = localStorage.getItem('usuarioPerfil');
+    const areaAdmin = document.getElementById('linkAdmin');
+
+    if (areaAdmin) {
+        if (perfil === 'ADMIN') {
+            areaAdmin.style.display = 'inline'; 
+        } else {
+            areaAdmin.style.display = 'none';
+        }
     }
 }
 
@@ -292,6 +308,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
             localStorage.setItem('usuarioLogado', 'true');
             localStorage.setItem('usuarioEmail', usuario.email);
             localStorage.setItem('usuarioNome', usuario.nome);
+            localStorage.setItem('usuarioPerfil', usuario.perfil);
 
             alert(`Bem-vindo, ${usuario.nome}!`);
             
@@ -317,4 +334,5 @@ window.onload = () => {
     renderAllProducts(); // Carrega os produtos da página camisas
     updateCart();        // Atualiza o contador do carrinho
     atualizarInterfaceUsuario(); // Checa se tem alguém logado e troca o ícone pelo nome
+    mostrarBotaoAdmin();
 };
